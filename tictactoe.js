@@ -115,6 +115,7 @@ $('.impossible').click(function() {
   difficultyLevel = 'impossible';
   $('#difficulty-div').toggle('.hidden');
   $('.gameboard').toggle('.hidden');
+  impossibleOnePlayerGame();
 });
 
 
@@ -138,11 +139,13 @@ function easyOnePlayerGame() {
   console.log("easyOnePlayerGame called.");
   if (currentPlayerName === 'Computer') {
     easyComputerTurn();
+    singlePlayerTurn();
   }
   else {
-    playerTurn();
+    singlePlayerTurn();
   }
 }
+
 
 /** The computer plays in random positions
  * @easyComputerTurn
@@ -153,6 +156,7 @@ function easyComputerTurn() {
   console.log("boardPosition is " + boardPosition);
   if (liveBoard[boardPosition] === null) {
     activatePlacement();
+    singlePlayerTurn();
   }
   else {
     easyComputerTurn();
@@ -224,6 +228,84 @@ function playerTurn() {
     boardPosition = 8;
     if (liveBoard[boardPosition] === null) {
       activatePlacement();
+    }
+  });
+}
+
+/** Function for players to enter their symbol into a box and check for winner
+* @playerTurn
+*/
+function singlePlayerTurn() {
+  //Clicking Boxes
+  $('#box0').click(function() {
+    boardPosition = 0;
+    if (liveBoard[boardPosition] === null) {
+      activatePlacement();
+      easyComputerTurn();
+    }
+  });
+
+  $('#box1').click(function() {
+    boardPosition = 1;
+    if (liveBoard[boardPosition] === null) {
+      activatePlacement();
+      easyComputerTurn();
+    }
+  });
+
+  $('#box2').click(function() {
+    boardPosition = 2;
+    if (liveBoard[boardPosition] === null) {
+      activatePlacement();
+      easyComputerTurn();
+    }
+  });
+
+  $('#box3').click(function() {
+    boardPosition = 3;
+    if (liveBoard[boardPosition] === null) {
+      activatePlacement();
+      easyComputerTurn();
+    }
+  });
+
+  $('#box4').click(function() {
+    boardPosition = 4;
+    if (liveBoard[boardPosition] === null) {
+      activatePlacement();
+      easyComputerTurn();
+    }
+  });
+
+  $('#box5').click(function() {
+    boardPosition = 5;
+    if (liveBoard[boardPosition] === null) {
+      activatePlacement();
+      easyComputerTurn();
+    }
+  });
+
+  $('#box6').click(function() {
+    boardPosition = 6;
+    if (liveBoard[boardPosition] === null) {
+      activatePlacement();
+      easyComputerTurn();
+    }
+  });
+
+  $('#box7').click(function() {
+    boardPosition = 7;
+    if (liveBoard[boardPosition] === null) {
+      activatePlacement();
+      easyComputerTurn();
+    }
+  });
+
+  $('#box8').click(function() {
+    boardPosition = 8;
+    if (liveBoard[boardPosition] === null) {
+      activatePlacement();
+      easyComputerTurn();
     }
   });
 }
@@ -336,7 +418,7 @@ function gameDraw() {
  */
 function resetGame() {
   console.log("resetGame was called.");
-  turnNum = 1;
+  turnNum = 0;
   liveBoard = [null, null, null, null, null, null, null, null, null];
   difficultyLevel = undefined;
   onePersonPlayerOrder = undefined;
