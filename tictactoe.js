@@ -23,7 +23,7 @@ var currentSymbol = function(currentPlayerName) {
 };
 
 //Used in turnNum function for Tracking the number of turns
-var turnNum = 1;
+var turnNum = 0;
 
 //The array of the board
 var liveBoard = [null, null, null, null, null, null, null, null, null];
@@ -57,11 +57,14 @@ $('.two-players').click(function() {
 //GAME END OPTIONs
 //
 $('.yes').click(function() {
+  resetGame();
   $('.game-end').toggle('.hidden');
   $('.gameboard, .headers').toggle('.hidden');
+
 });
 
 $('.no').click(function() {
+  resetGame();
   $('.game-end').toggle('.hidden');
   $('#number').toggle('.hidden');
 });
@@ -156,7 +159,7 @@ function easyComputerTurn() {
   console.log("boardPosition is " + boardPosition);
   if (liveBoard[boardPosition] === null) {
     activatePlacement();
-    singlePlayerTurn();
+    // singlePlayerTurn();
   }
   else {
     easyComputerTurn();
@@ -315,12 +318,13 @@ function singlePlayerTurn() {
 */
 function activatePlacement() {
   console.log("activatePlacement called.");
-  turnTracker();
+  // turnTracker();
   currentPlayer(turnNum);
   boxID = "#box" + boardPosition;
   liveBoard.splice(boardPosition, 1, currentSymbol(currentPlayerName));
   $(boxID).html(currentSymbol(currentPlayerName));
   checkForWinner();
+    turnTracker();
 }
 
 /** Keeps track of which turn it is and the name of the current player
@@ -337,7 +341,7 @@ function turnTracker() {
  **/
  function currentPlayer(turnNum) {
    console.log("currentPlayer(turnNum) called.");
-  if (turnNum % 2 === 1) {
+  if (turnNum % 2 === 0) {
     currentPlayerName = firstPlayerName;
   } else {
     currentPlayerName = secondPlayerName;
@@ -373,7 +377,7 @@ function checkForWinner() {
   } else if (liveBoard[2] === currentSymbol(currentPlayerName) && liveBoard[5] === currentSymbol(currentPlayerName) && liveBoard[8] === currentSymbol(currentPlayerName)) {
     console.log("Current player is the winner. 8");
     gameWon();
-  } else if (liveBoard.includes(null) == true) {
+  } else if (liveBoard.includes(null) === true) {
     console.log("No winner yet! Keep playing");
     switchPlayers();
     console.log("New currentPlayerName is " + currentPlayerName);
@@ -395,11 +399,18 @@ function switchPlayers() {
  * @gameWon
  */
 function gameWon() {
+  if(currentPlayerName === "You") {
+    $('.win-draw-div').html("<h3 class='winner-or-draw'>" + currentPlayerName + " win!!!</h3>");
+    $('.headers').toggle('.hidden');
+    $('.gameboard').toggle('.hidden');
+    $('.game-end').toggle('.hidden');
+  }
+  else {
   $('.win-draw-div').html("<h3 class='winner-or-draw'>" + currentPlayerName + " wins!!!</h3>");
   $('.headers').toggle('.hidden');
   $('.gameboard').toggle('.hidden');
   $('.game-end').toggle('.hidden');
-  resetGame();
+}
 }
 
 /** If the game is a draw, it tells you so and offers another game.
@@ -420,7 +431,6 @@ function resetGame() {
   console.log("resetGame was called.");
   turnNum = 0;
   liveBoard = [null, null, null, null, null, null, null, null, null];
-  difficultyLevel = undefined;
-  onePersonPlayerOrder = undefined;
   $('.box').html("");
+  currentPlayer(turnNum);
 }
