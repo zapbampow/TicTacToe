@@ -14,8 +14,8 @@ var thisIsAWinningState;
 
 /** Tests whether a boardState is a winning game
  * @wins
- * @param state - an array of a single boardState. Entered as an array location from the games array
- * @param player - the player who most recently played: x or o.
+ * @param boardstate - an array of a single boardState.
+ * @param player - the player who most recently played - firsPlayer or secondPlayer
  */
 function isThereAWinner(boardstate, player) {
   thisIsAWinningState = false;
@@ -62,6 +62,8 @@ var boxID;
 
 // OPENING SCREEN: Click '2 Players' on opening screen. You go straight to the board.
 $('.two-players').click(function() {
+  firstPlayer.name = "1st Player";
+  secondPlayer.name = "2nd Player";
   $('#number').toggle('.hidden');
   $('.gameboard').toggle('.hidden');
   $('.headers').toggle('.hidden');
@@ -77,6 +79,9 @@ $('.yes').click(function() {
   resetGame();
   $('.game-end').toggle('.hidden');
   $('.gameboard, .headers').toggle('.hidden');
+  if($('.player-2-header').html() === "<h1>Computer's Turn</h1>" || $('.player-2-header').html() === "<h1>2nd Player's Turn</h1>") {
+    $('.player-1-header, .player-2-header').toggle('.hidden');
+  }
 
 });
 
@@ -102,7 +107,7 @@ $('.one-player').click(function() {
 $('.first-player').click(function() {
   firstPlayer.name = 'You';
   secondPlayer.name = 'Computer';
-  current(turnNum);
+  // current(turnNum);
   $('#order').toggle('.hidden');
   $('#difficulty-div').toggle('.hidden');
   $('.player-1-header').html("<h1>" + firstPlayer.name + "'re Turn</h1>");
@@ -113,7 +118,7 @@ $('.first-player').click(function() {
 $('.second-player').click(function() {
   firstPlayer.name = 'Computer';
   secondPlayer.name = 'You';
-  current(turnNum);
+  // current(turnNum);
   $('#order').toggle('.hidden');
   $('#difficulty-div').toggle('.hidden');
   $('.player-1-header').html("<h1>" + firstPlayer.name + "'s Turn</h1>");
@@ -198,7 +203,7 @@ function easyComputerTurn() {
   }
 }
 
-/** Function for players to enter their symbol into a box and check for winner
+/** Function for players to enter their symbol into a box
 * @playerTurn
 */
 function playerTurn() {
@@ -277,9 +282,9 @@ function playerTurn() {
 function activatePlacement(boardPosition, player) {
   console.log("activatePlacement called.");
   boxID = "#box" + boardPosition;
-  liveBoard.splice(boardPosition, 1, currentPlayer.symbol);
-  $(boxID).html(currentPlayer.symbol);
-  isThereAWinner(liveBoard, currentPlayer.name);
+  liveBoard.splice(boardPosition, 1, player.symbol);
+  $(boxID).html(player.symbol);
+  isThereAWinner(liveBoard, player.name);
   gameEndOrNot();
 }
 
@@ -291,10 +296,11 @@ function gameEndOrNot() {
   if(thisIsAWinningState === true) {
     gameWon();
   }
-  else if (liveBoard.includes(null) == false ) {
+  else if (liveBoard.includes(null) === false ) {
     gameDraw();
   }
   else {
+    console.log("gameEndOrNot final else called. changeCurrentPlayer and nextTurn");
     turnNum++;
     changeCurrentPlayer();
     nextTurn();
@@ -334,18 +340,6 @@ function changeCurrentPlayer() {
     }
 }
 
-/** Keeps track of current player name
- * @param {number} turnNum - The count of the number of turns is pulled from the turnNum variable.
- **/
- function current(turnNum) {
-   console.log("currentPlayer(turnNum) called.");
-  if (turnNum % 2 === 0) {
-    currentPlayer = firstPlayer;
-  } else {
-    currentPlayer = secondPlayer;
-  }
-}
-
 
 /** When a game is won, this function displays the winner and asks if they want to play again. If yes, it resets the game. If no, it resets everything and sends them to the player-number screen.
  * @gameWon
@@ -382,14 +376,24 @@ function resetGame() {
   console.log("resetGame was called.");
   turnNum = 0;
   liveBoard = [null, null, null, null, null, null, null, null, null];
-  $('.box').html("");
   currentPlayer = firstPlayer;
+  currentOpponent = secondPlayer;
+  thisIsAWinningState = undefined;
+  boardPosition = undefined;
+  emptySquares = [];
+  boxID = undefined;
+  $('.box').html("");
+
 }
 
 
 //
 //AI TURN FOR HARDER Play
 //
+
+/** Lays out the conditions for the AI to decide where to place on the board
+* @aiTurn
+*/
 function aiTurn () {
   console.log('aiTurn Called');
   var randomCorner = Math.floor(Math.random() * 5);
@@ -403,10 +407,10 @@ function aiTurn () {
   else if(turnNum === 1 && liveBoard[4] !== null){
     activatePlacement(cornerArray[randomCorner], currentPlayer);
   }
-  else if (turnNum === 3 && liveBoard[0] === currentOpponent.symbol && liveBoard[8] === currentOpponent.symbol && liveBoard[1] === null) {
+  else if (turnNum === 3 && liveBoard[0] === currentOpponent.symbol && liveBoard[8] === currentOpponent.symbol) {
     activatePlacement(1, currentPlayer);
   }
-  else if (turnNum === 3 && liveBoard[2] === currentOpponent.symbol && liveBoard[6] === currentOpponent.symbol && liveBoard[5] === null) {
+  else if (turnNum === 3 && liveBoard[2] === currentOpponent.symbol && liveBoard[6] === currentOpponent.symbol) {
     activatePlacement(5, currentPlayer);
   }
   else if(liveBoard[0] === currentPlayer.symbol && liveBoard[1] === currentPlayer.symbol && liveBoard[2] === null) {
@@ -450,6 +454,9 @@ function aiTurn () {
   }
   else if (liveBoard[2] === currentPlayer.symbol && liveBoard[5] === currentPlayer.symbol && liveBoard[8] === null) {
     activatePlacement(8, currentPlayer);
+  }
+  else if (liveBoard[5] === currentPlayer.symbol && liveBoard[8] === currentPlayer.symbol && liveBoard[2] === null) {
+    activatePlacement(2, currentPlayer);
   }
   else if (liveBoard[2] === currentPlayer.symbol && liveBoard[8] === currentPlayer.symbol && liveBoard[5] === null) {
     activatePlacement(5, currentPlayer);
@@ -508,6 +515,9 @@ function aiTurn () {
   else if (liveBoard[2] === currentOpponent.symbol && liveBoard[5] === currentOpponent.symbol && liveBoard[8] === null) {
     activatePlacement(8, currentPlayer);
   }
+  else if (liveBoard[5] === currentOpponent.symbol && liveBoard[8] === currentOpponent.symbol && liveBoard[2] === null) {
+    activatePlacement(2, currentPlayer);
+  }
   else if (liveBoard[2] === currentOpponent.symbol && liveBoard[8] === currentOpponent.symbol && liveBoard[5] === null) {
     activatePlacement(5, currentPlayer);
   }
@@ -526,24 +536,38 @@ function aiTurn () {
 
   else {
     console.log("final else called");
-    randomPlacement();
-}
-}
-
-function randomPlacement () {
-  var emptySquares = [];
-  for(i=0; i<liveBoard.length; i++) {
-    if(liveBoard[i] === null) {
-      emptySquares.push(i);
+    var emptySquares = [];
+    for(i=0; i<liveBoard.length; i++) {
+      if(liveBoard[i] === null) {
+        emptySquares.push(i);
+      }
+    }
+    console.log("emptySquares = " + emptySquares);
+    if(emptySquares.length === 1) {
+      console.log("emptySquares.length = 1");
+      activatePlacement(emptySquares[0], currentPlayer);
+    }
+    else {
+      randomPlacement(emptySquares);
     }
   }
-  boardPosition = Math.floor(Math.random() * (emptySquares.length+1));
+
+/** Makes a random placement based on the empty spaces available defined in the emptySquares array
+* @randomPlacement
+* @param emptySquares - the array that holds the current empty spaces on the board. It's created in final else of the aiTurn()
+*/
+function randomPlacement (emptySquares) {
+  boardPosition = emptySquares[Math.floor(Math.random() * (emptySquares.length+1))];
+  console.log('boardPosition = ' + boardPosition + ' AND currentPlayer = ' + currentPlayer.name);
   if (liveBoard[boardPosition] === null) {
     activatePlacement(boardPosition, currentPlayer);
   }
   else {
-    randomPlacement();
+    randomPlacement(emptySquares);
   }
+}
+
+
 }
 // function getEmptySquares() {
 //   var emptySquares = [];
