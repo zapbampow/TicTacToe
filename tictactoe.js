@@ -21,6 +21,7 @@ var thisIsAWinningState;
  * @param player - the player who most recently played - firsPlayer or secondPlayer
  */
 function isThereAWinner(boardstate, player) {
+  console.log("isThereAWinner called");
   thisIsAWinningState = false;
   for (i = 0; i < winningStates.length; i++) {
     if (boardstate[winningStates[i][0]] !== null && boardstate[winningStates[i][0]] === boardstate[winningStates[i][1]] && boardstate[winningStates[i][1]] === boardstate[winningStates[i][2]]) {
@@ -299,10 +300,13 @@ function easyComputerTurn() {
 function activatePlacement(boardPosition, player) {
   console.log("activatePlacement called.");
   boxID = "#box" + boardPosition;
+  console.log("aP 1. boxID = " + boxID);
   liveBoard.splice(boardPosition, 1, player.symbol);
+  console.log("aP 2. Spliced liveBoard = " + liveBoard);
   $(boxID).html(player.symbol);
-  // $(boxID).html(player.symbol);
+  console.log("aP3. jQuery adds playerSymbol to board");
   isThereAWinner(liveBoard, player.name);
+  checkForAlmostWin();
   gameEndOrNot();
 }
 
@@ -318,7 +322,6 @@ function gameEndOrNot() {
     gameDraw();
   }
   else {
-    console.log("gameEndOrNot final else called. changeCurrentPlayer and nextTurn");
     turnNum++;
     changeCurrentPlayer();
     nextTurn();
@@ -401,6 +404,7 @@ function resetGame() {
   boardPosition = undefined;
   emptySquares = [];
   boxID = undefined;
+  almostWin = false;
   $('.box').html("");
   impossibleOnePlayerGame();
 
@@ -414,11 +418,17 @@ function resetGame() {
 /** Lays out the conditions for the AI to decide where to place on the board
  * @aiTurn
  */
+
+//These variables are all needed for aiTurn - random, cornerArray, and sideArray
+var random = Math.floor(Math.random() * 5);
+var cornerArray = [0, 2, 6, 8];
+var sideArray = [1, 3, 5, 7];
+
 function aiTurn() {
-  checkForAlmostWin();
   console.log('aiTurn Called');
   if (almostWin === true) {
     console.log("almostWin = " + almostWin);
+    console.log("currentPlayer.symbol in aiTurn = " + currentPlayer.symbol);
     // If someone is about to win, loop through winningStates and determine a move based on who is about to win.
     for (i = 0; i < winningStates.length; i++) {
       // If the currentPlayer can win, then the AI should play for an immediate win
@@ -449,9 +459,7 @@ function aiTurn() {
 
   else {
     // If no one is about to win, there are a few set moves at the beginning in the first few if-else statements. Then it plays randomly later in the game. Though that shouldn't actually happen very often because the first if-statement should kick in in most situations later in the game.
-    var random = Math.floor(Math.random() * 5);
-    var cornerArray = [0, 2, 6, 8];
-    var sideArray = [1, 3, 5, 7];
+
     if (turnNum === 0) {
       // If the AI is firstPlayer it should take a random corner
       setTimeout(function() {activatePlacement(cornerArray[random], currentPlayer);}, 500);
@@ -517,7 +525,6 @@ function checkForAlmostWin() {
   almostWin = false;
 
   for (i = 0; i < winningStates.length; i++) {
-    console.log(i + " for checkForAlmostWin");
     if (liveBoard[winningStates[i][0]] !== null && liveBoard[winningStates[i][1]] !== null && liveBoard[winningStates[i][0]] === liveBoard[winningStates[i][1]] && liveBoard[winningStates[i][2]] === null) {
       almostWin = true;
       break;
@@ -529,6 +536,7 @@ function checkForAlmostWin() {
       break;
     }
   }
+  console.log('almostWin from func = ' + almostWin);
 }
 
 
