@@ -1,3 +1,6 @@
+///
+// CODE FOR DETERMINING IF THERE IS A WINNER
+//
 var winningStates = [
   [0, 1, 2],
   [3, 4, 5],
@@ -27,6 +30,72 @@ function isThereAWinner(boardstate, player) {
   }
 }
 
+//
+// jQUERY FOR USER CLICKING ON SQUARES TO ADD THEIR PIECES
+//
+$('#box0').click(function() {
+  boardPosition = 0;
+  if (liveBoard[boardPosition] === null && currentPlayer.name != "Computer") {
+    activatePlacement(boardPosition, currentPlayer);
+  }
+});
+
+$('#box1').click(function() {
+  boardPosition = 1;
+  if (liveBoard[boardPosition] === null && currentPlayer.name != "Computer") {
+    activatePlacement(boardPosition, currentPlayer);
+  }
+});
+
+$('#box2').click(function() {
+  boardPosition = 2;
+  if (liveBoard[boardPosition] === null && currentPlayer.name != "Computer") {
+    activatePlacement(boardPosition, currentPlayer);
+  }
+});
+
+$('#box3').click(function() {
+  boardPosition = 3;
+  if (liveBoard[boardPosition] === null && currentPlayer.name != "Computer") {
+    activatePlacement(boardPosition, currentPlayer);
+  }
+});
+
+$('#box4').click(function() {
+  boardPosition = 4;
+  if (liveBoard[boardPosition] === null && currentPlayer.name != "Computer") {
+    activatePlacement(boardPosition, currentPlayer);
+  }
+});
+
+$('#box5').click(function() {
+  boardPosition = 5;
+  if (liveBoard[boardPosition] === null && currentPlayer.name != "Computer") {
+    activatePlacement(boardPosition, currentPlayer);
+  }
+});
+
+$('#box6').click(function() {
+  boardPosition = 6;
+  if (liveBoard[boardPosition] === null && currentPlayer.name !== "Computer") {
+    activatePlacement(boardPosition, currentPlayer);
+  }
+});
+
+$('#box7').click(function() {
+  boardPosition = 7;
+  if (liveBoard[boardPosition] === null && currentPlayer.name !== "Computer") {
+    activatePlacement(boardPosition, currentPlayer);
+  }
+});
+
+$('#box8').click(function() {
+  boardPosition = 8;
+  if (liveBoard[boardPosition] === null && currentPlayer.name !== "Computer") {
+    activatePlacement(boardPosition, currentPlayer);
+  }
+});
+
 
 //
 //VARIABLES
@@ -55,21 +124,39 @@ var liveBoard = [null, null, null, null, null, null, null, null, null];
 var boardPosition;
 
 var boxID;
+var almostWin;
 
 //
 // TWO PLAYER GAME - this is the easier portion of the code. So I'm sticking it at the top because that feels more organized to me.
 //
 
+/** Function to change the player-header as the turns change
+* @changePlayerHeader
+*/
+function changePlayerHeader() {
+  if(currentPlayer.name === "You") {
+    $('.player-header').html("<h1>You're Turn</h1>");
+  }
+  else if(currentPlayer === firstPlayer) {
+    $('.player-header').html("<h1>" + firstPlayer.name + "'s Turn</h1>");
+  }
+  else {
+    $('.player-header').html("<h1>" + secondPlayer.name + "'s Turn</h1>");
+  }
+}
+
 // OPENING SCREEN: Click '2 Players' on opening screen. You go straight to the board.
 $('.two-players').click(function() {
+  currentPlayer = firstPlayer;
   firstPlayer.name = "1st Player";
   secondPlayer.name = "2nd Player";
   $('#number').toggle('.hidden');
   $('.gameboard').toggle('.hidden');
   $('.headers').toggle('.hidden');
-  $('.player-1-header').html("<h1>" + firstPlayer.name + "'s Turn</h1>");
-  $('.player-2-header').html("<h1>" + secondPlayer.name + "'s Turn</h1>");
-  twoPlayerGame();
+  changePlayerHeader();
+  // $('.player-header').html("<h1>" + firstPlayer.name + "'s Turn</h1>");
+  // $('.player-2-header').html("<h1>" + secondPlayer.name + "'s Turn</h1>");
+  // twoPlayerGame();
 });
 
 //
@@ -79,9 +166,10 @@ $('.yes').click(function() {
   resetGame();
   $('.game-end').toggle('.hidden');
   $('.gameboard, .headers').toggle('.hidden');
-  if($('.player-2-header').html() === "<h1>Computer's Turn</h1>" || $('.player-2-header').html() === "<h1>2nd Player's Turn</h1>") {
-    $('.player-1-header, .player-2-header').toggle('.hidden');
-  }
+  changePlayerHeader();
+  // if($('.player-2-header').html() === "<h1>Computer's Turn</h1>" || $('.player-2-header').html() === "<h1>2nd Player's Turn</h1>") {
+  //   $('.player-1-header, .player-2-header').toggle('.hidden');
+  // }
 
 });
 
@@ -107,22 +195,22 @@ $('.one-player').click(function() {
 $('.first-player').click(function() {
   firstPlayer.name = 'You';
   secondPlayer.name = 'Computer';
-  // current(turnNum);
   $('#order').toggle('.hidden');
   $('#difficulty-div').toggle('.hidden');
-  $('.player-1-header').html("<h1>" + firstPlayer.name + "'re Turn</h1>");
-  $('.player-2-header').html("<h1>" + secondPlayer.name + "'s Turn</h1>");
+  changePlayerHeader();
+  // $('.player-1-header').html("<h1>" + firstPlayer.name + "'re Turn</h1>");
+  // $('.player-2-header').html("<h1>" + secondPlayer.name + "'s Turn</h1>");
 });
 
 //Click 'Second Player'
 $('.second-player').click(function() {
   firstPlayer.name = 'Computer';
   secondPlayer.name = 'You';
-  // current(turnNum);
+  changePlayerHeader();
   $('#order').toggle('.hidden');
   $('#difficulty-div').toggle('.hidden');
-  $('.player-1-header').html("<h1>" + firstPlayer.name + "'s Turn</h1>");
-  $('.player-2-header').html("<h1>" + secondPlayer.name + "'re Turn</h1>");
+  // $('.player-1-header').html("<h1>" + firstPlayer.name + "'s Turn</h1>");
+  // $('.player-2-header').html("<h1>" + secondPlayer.name + "'re Turn</h1>");
 });
 
 //Options for Difficulty Level
@@ -152,13 +240,13 @@ $('.impossible').click(function() {
 // THE FUNCTIONS
 //
 
-/** Function for the two player game. It simply calls the playerTurn function
-* @twoPlayerGame
-*/
-function twoPlayerGame() {
-  console.log("twoPlayerGame called.");
-  playerTurn();
-}
+// /** Function for the two player game. It simply calls the playerTurn function
+// * @twoPlayerGame
+// */
+// function twoPlayerGame() {
+//   console.log("twoPlayerGame called.");
+//   // playerTurn();
+// }
 
 /** The Combination of the pieces for playing against the computer on Easy level, where the computer places randomly
 * @easyOnePlayerGame
@@ -166,11 +254,11 @@ function twoPlayerGame() {
 function easyOnePlayerGame() {
   console.log("easyOnePlayerGame called.");
   if (currentPlayer.name === 'Computer') {
-    easyComputerTurn();
+    setTimeout(easyComputerTurn, 500);
   }
-  else {
-    playerTurn();
-  }
+  // else {
+  //   playerTurn();
+  // }
 }
 
 /** The Combination of the pieces for playing against the computer on Impossible level, where the computer places randomly
@@ -179,11 +267,11 @@ function easyOnePlayerGame() {
 function impossibleOnePlayerGame() {
   console.log("impossibleOnePlayerGame called.");
   if (currentPlayer.name === 'Computer') {
-    aiTurn();
+    setTimeout(aiTurn, 1000);
   }
-  else {
-    playerTurn();
-  }
+  // else {
+  //   playerTurn();
+  // }
 }
 
 
@@ -195,84 +283,13 @@ function easyComputerTurn() {
   boardPosition = Math.floor(Math.random() * 9);
   console.log("boardPosition is " + boardPosition);
   if (liveBoard[boardPosition] === null) {
-    activatePlacement(boardPosition, currentPlayer);
+    setTimeout(function() {activatePlacement(boardPosition, currentPlayer);}, 500);
     // singlePlayerTurn();
   }
   else {
     easyComputerTurn();
   }
 }
-
-/** Function for players to enter their symbol into a box
-* @playerTurn
-*/
-function playerTurn() {
-  console.log('playerTurn called');
-  //Clicking Boxes
-  $('#box0').click(function() {
-    boardPosition = 0;
-    if (liveBoard[boardPosition] === null) {
-      activatePlacement(boardPosition, currentPlayer);
-    }
-  });
-
-  $('#box1').click(function() {
-    boardPosition = 1;
-    if (liveBoard[boardPosition] === null) {
-      activatePlacement(boardPosition, currentPlayer);
-    }
-  });
-
-  $('#box2').click(function() {
-    boardPosition = 2;
-    if (liveBoard[boardPosition] === null) {
-      activatePlacement(boardPosition, currentPlayer);
-    }
-  });
-
-  $('#box3').click(function() {
-    boardPosition = 3;
-    if (liveBoard[boardPosition] === null) {
-      activatePlacement(boardPosition, currentPlayer);
-    }
-  });
-
-  $('#box4').click(function() {
-    boardPosition = 4;
-    if (liveBoard[boardPosition] === null) {
-      activatePlacement(boardPosition, currentPlayer);
-    }
-  });
-
-  $('#box5').click(function() {
-    boardPosition = 5;
-    if (liveBoard[boardPosition] === null) {
-      activatePlacement(boardPosition, currentPlayer);
-    }
-  });
-
-  $('#box6').click(function() {
-    boardPosition = 6;
-    if (liveBoard[boardPosition] === null) {
-      activatePlacement(boardPosition, currentPlayer);
-    }
-  });
-
-  $('#box7').click(function() {
-    boardPosition = 7;
-    if (liveBoard[boardPosition] === null) {
-      activatePlacement(boardPosition, currentPlayer);
-    }
-  });
-
-  $('#box8').click(function() {
-    boardPosition = 8;
-    if (liveBoard[boardPosition] === null) {
-      activatePlacement(boardPosition, currentPlayer);
-    }
-  });
-}
-
 
 /** Everything that needs to happen when someone places their symbol on the board
 * @activatePlacement
@@ -284,6 +301,7 @@ function activatePlacement(boardPosition, player) {
   boxID = "#box" + boardPosition;
   liveBoard.splice(boardPosition, 1, player.symbol);
   $(boxID).html(player.symbol);
+  // $(boxID).html(player.symbol);
   isThereAWinner(liveBoard, player.name);
   gameEndOrNot();
 }
@@ -304,42 +322,43 @@ function gameEndOrNot() {
     turnNum++;
     changeCurrentPlayer();
     nextTurn();
-    $('.player-1-header, .player-2-header').toggle('.hidden');
+    // $('.player-1-header, .player-2-header').toggle('.hidden');
   }
 }
-
-/** It calls the next turn if the game is not over.
-* @nextTurn
-*/
-function nextTurn() {
-  console.log ('nextTurn called');
-  if(currentPlayer.name === "Computer" && difficultyLevel === "easy") {
-    easyComputerTurn();
-  }
-  else if(currentPlayer.name === "Computer" && difficultyLevel === "impossible") {
-    aiTurn();
-  }
-  else {
-    playerTurn();
-  }
-}
-
 
 /** Changes the current player after a turn has been played, but the game is not over.
 * @changeCurrentPlayer
 **/
 function changeCurrentPlayer() {
   console.log("changeCurrentPlayer called");
-    if(currentPlayer == firstPlayer) {
+    if(currentPlayer === firstPlayer) {
       currentPlayer = secondPlayer;
       currentOpponent = firstPlayer;
     }
-    else if (currentPlayer == secondPlayer) {
+    else if (currentPlayer === secondPlayer) {
       currentPlayer = firstPlayer;
       currentOpponent = secondPlayer;
     }
 }
 
+/** Calls the next turn if the game is not over.
+* @nextTurn
+*/
+function nextTurn() {
+  console.log ('nextTurn called');
+  if(currentPlayer.name === "Computer" && difficultyLevel === "easy") {
+    changePlayerHeader();
+    setTimeout(easyComputerTurn, 1500);
+
+  }
+  else if(currentPlayer.name === "Computer" && difficultyLevel === "impossible") {
+    changePlayerHeader();
+    setTimeout(aiTurn, 500);
+  }
+  else {
+    changePlayerHeader();
+  }
+}
 
 /** When a game is won, this function displays the winner and asks if they want to play again. If yes, it resets the game. If no, it resets everything and sends them to the player-number screen.
  * @gameWon
@@ -383,6 +402,7 @@ function resetGame() {
   emptySquares = [];
   boxID = undefined;
   $('.box').html("");
+  impossibleOnePlayerGame();
 
 }
 
@@ -392,165 +412,125 @@ function resetGame() {
 //
 
 /** Lays out the conditions for the AI to decide where to place on the board
-* @aiTurn
-*/
-function aiTurn () {
+ * @aiTurn
+ */
+function aiTurn() {
+  checkForAlmostWin();
   console.log('aiTurn Called');
-  var randomCorner = Math.floor(Math.random() * 5);
-  var cornerArray = [0, 1, 6, 8];
-  if (turnNum === 0) {
-    activatePlacement(cornerArray[randomCorner], currentPlayer);
-  }
-  else if(turnNum === 1 && liveBoard[4] === null){
-    activatePlacement(4, currentPlayer);
-  }
-  else if(turnNum === 1 && liveBoard[4] !== null){
-    activatePlacement(cornerArray[randomCorner], currentPlayer);
-  }
-  else if (turnNum === 3 && liveBoard[0] === currentOpponent.symbol && liveBoard[8] === currentOpponent.symbol) {
-    activatePlacement(1, currentPlayer);
-  }
-  else if (turnNum === 3 && liveBoard[2] === currentOpponent.symbol && liveBoard[6] === currentOpponent.symbol) {
-    activatePlacement(5, currentPlayer);
-  }
-  else if(liveBoard[0] === currentPlayer.symbol && liveBoard[1] === currentPlayer.symbol && liveBoard[2] === null) {
-    activatePlacement(2, currentPlayer);
-  }
-  else if (liveBoard[1] === currentPlayer.symbol && liveBoard[2] === currentPlayer.symbol && liveBoard[0] === null) {
-    activatePlacement(0, currentPlayer);
-  }
-  else if (liveBoard[0] === currentPlayer.symbol && liveBoard[2] === currentPlayer.symbol && liveBoard[1] === null) {
-    activatePlacement(1, currentPlayer);
-  }
-  else if (liveBoard[3] === currentPlayer.symbol && liveBoard[4] === currentPlayer.symbol && liveBoard[5] === null) {
-    activatePlacement(5, currentPlayer);
-  }
-  else if (liveBoard[4] === currentPlayer.symbol && liveBoard[5] === currentPlayer.symbol && liveBoard[3] === null) {
-    activatePlacement(3, currentPlayer);
-  }
-  else if (liveBoard[6] === currentPlayer.symbol && liveBoard[7] === currentPlayer.symbol && liveBoard[8] === null) {
-    activatePlacement(8, currentPlayer);
-  }
-  else if (liveBoard[7] === currentPlayer.symbol && liveBoard[8] === currentPlayer.symbol && liveBoard[6] === null) {
-    activatePlacement(6, currentPlayer);
-  }
-  else if (liveBoard[6] === currentPlayer.symbol && liveBoard[8] === currentPlayer.symbol && liveBoard[7] === null) {
-    activatePlacement(7, currentPlayer);
-  }
-  else if (liveBoard[0] === currentPlayer.symbol && liveBoard[3] === currentPlayer.symbol && liveBoard[6] === null) {
-    activatePlacement(6, currentPlayer);
-  }
-  else if (liveBoard[3] === currentPlayer.symbol && liveBoard[6] === currentPlayer.symbol && liveBoard[0] === null) {
-    activatePlacement(0, currentPlayer);
-  }
-  else if (liveBoard[0] === currentPlayer.symbol && liveBoard[6] === currentPlayer.symbol && liveBoard[3] === null) {
-    activatePlacement(3, currentPlayer);
-  }
-  else if (liveBoard[1] === currentPlayer.symbol && liveBoard[4] === currentPlayer.symbol && liveBoard[7] === null) {
-    activatePlacement(7, currentPlayer);
-  }
-  else if (liveBoard[4] === currentPlayer.symbol && liveBoard[7] === currentPlayer.symbol && liveBoard[1] === null) {
-    activatePlacement(1, currentPlayer);
-  }
-  else if (liveBoard[2] === currentPlayer.symbol && liveBoard[5] === currentPlayer.symbol && liveBoard[8] === null) {
-    activatePlacement(8, currentPlayer);
-  }
-  else if (liveBoard[5] === currentPlayer.symbol && liveBoard[8] === currentPlayer.symbol && liveBoard[2] === null) {
-    activatePlacement(2, currentPlayer);
-  }
-  else if (liveBoard[2] === currentPlayer.symbol && liveBoard[8] === currentPlayer.symbol && liveBoard[5] === null) {
-    activatePlacement(5, currentPlayer);
-  }
-  else if (liveBoard[0] === currentPlayer.symbol && liveBoard[4] === currentPlayer.symbol && liveBoard[8] === null) {
-    activatePlacement(8, currentPlayer);
-  }
-  else if (liveBoard[4] === currentPlayer.symbol && liveBoard[8] === currentPlayer.symbol && liveBoard[0] === null) {
-    activatePlacement(0, currentPlayer);
-  }
-  else if (liveBoard[2] === currentPlayer.symbol && liveBoard[4] === currentPlayer.symbol && liveBoard[6] === null) {
-    activatePlacement(6, currentPlayer);
-  }
-  else if (liveBoard[4] === currentPlayer.symbol && liveBoard[6] === currentPlayer.symbol && liveBoard[2] === null) {
-    activatePlacement(2, currentPlayer);
-  }
-  if(liveBoard[0] === currentOpponent.symbol && liveBoard[1] === currentOpponent.symbol && liveBoard[2] === null) {
-    activatePlacement(2, currentPlayer);
-  }
-  else if (liveBoard[1] === currentOpponent.symbol && liveBoard[2] === currentOpponent.symbol && liveBoard[0] === null) {
-    activatePlacement(0, currentPlayer);
-  }
-  else if (liveBoard[0] === currentOpponent.symbol && liveBoard[2] === currentOpponent.symbol && liveBoard[1] === null) {
-    activatePlacement(1, currentPlayer);
-  }
-  else if (liveBoard[3] === currentOpponent.symbol && liveBoard[4] === currentOpponent.symbol && liveBoard[5] === null) {
-    activatePlacement(5, currentPlayer);
-  }
-  else if (liveBoard[4] === currentOpponent.symbol && liveBoard[5] === currentOpponent.symbol && liveBoard[3] === null) {
-    activatePlacement(3, currentPlayer);
-  }
-  else if (liveBoard[6] === currentOpponent.symbol && liveBoard[7] === currentOpponent.symbol && liveBoard[8] === null) {
-    activatePlacement(8, currentPlayer);
-  }
-  else if (liveBoard[7] === currentOpponent.symbol && liveBoard[8] === currentOpponent.symbol && liveBoard[6] === null) {
-    activatePlacement(6, currentPlayer);
-  }
-  else if (liveBoard[6] === currentOpponent.symbol && liveBoard[8] === currentOpponent.symbol && liveBoard[7] === null) {
-    activatePlacement(7, currentPlayer);
-  }
-  else if (liveBoard[0] === currentOpponent.symbol && liveBoard[3] === currentOpponent.symbol && liveBoard[6] === null) {
-    activatePlacement(6, currentPlayer);
-  }
-  else if (liveBoard[3] === currentOpponent.symbol && liveBoard[6] === currentOpponent.symbol && liveBoard[0] === null) {
-    activatePlacement(0, currentPlayer);
-  }
-  else if (liveBoard[0] === currentOpponent.symbol && liveBoard[6] === currentOpponent.symbol && liveBoard[3] === null) {
-    activatePlacement(3, currentPlayer);
-  }
-  else if (liveBoard[1] === currentOpponent.symbol && liveBoard[4] === currentOpponent.symbol && liveBoard[7] === null) {
-    activatePlacement(7, currentPlayer);
-  }
-  else if (liveBoard[4] === currentOpponent.symbol && liveBoard[7] === currentOpponent.symbol && liveBoard[1] === null) {
-    activatePlacement(1, currentPlayer);
-  }
-  else if (liveBoard[2] === currentOpponent.symbol && liveBoard[5] === currentOpponent.symbol && liveBoard[8] === null) {
-    activatePlacement(8, currentPlayer);
-  }
-  else if (liveBoard[5] === currentOpponent.symbol && liveBoard[8] === currentOpponent.symbol && liveBoard[2] === null) {
-    activatePlacement(2, currentPlayer);
-  }
-  else if (liveBoard[2] === currentOpponent.symbol && liveBoard[8] === currentOpponent.symbol && liveBoard[5] === null) {
-    activatePlacement(5, currentPlayer);
-  }
-  else if (liveBoard[0] === currentOpponent.symbol && liveBoard[4] === currentOpponent.symbol && liveBoard[8] === null) {
-    activatePlacement(8, currentPlayer);
-  }
-  else if (liveBoard[4] === currentOpponent.symbol && liveBoard[8] === currentOpponent.symbol && liveBoard[0] === null) {
-    activatePlacement(0, currentPlayer);
-  }
-  else if (liveBoard[2] === currentOpponent.symbol && liveBoard[4] === currentOpponent.symbol && liveBoard[6] === null) {
-    activatePlacement(6, currentPlayer);
-  }
-  else if (liveBoard[4] === currentOpponent.symbol && liveBoard[6] === currentOpponent.symbol && liveBoard[2] === null) {
-    activatePlacement(2, currentPlayer);
+  if (almostWin === true) {
+    console.log("almostWin = " + almostWin);
+    // If someone is about to win, loop through winningStates and determine a move based on who is about to win.
+    for (i = 0; i < winningStates.length; i++) {
+      // If the currentPlayer can win, then the AI should play for an immediate win
+      console.log(i + " for aiTurn first if-statement");
+      if (liveBoard[winningStates[i][0]] === currentPlayer.symbol && liveBoard[winningStates[i][1]] === currentPlayer.symbol && liveBoard[winningStates[i][2]] === null) {
+        setTimeout(function() {activatePlacement(winningStates[i][2], currentPlayer);}, 500);
+        break;
+      } else if (liveBoard[winningStates[i][1]] === currentPlayer.symbol && liveBoard[winningStates[i][2]] === currentPlayer.symbol && liveBoard[winningStates[i][0]] === null) {
+        setTimeout(function() {activatePlacement(winningStates[i][0], currentPlayer);}, 500);
+        break;
+      } else if (liveBoard[winningStates[i][0]] === currentPlayer.symbol && liveBoard[winningStates[i][2]] === currentPlayer.symbol && liveBoard[winningStates[i][1]] === null) {
+        setTimeout(function() {activatePlacement(winningStates[i][1], currentPlayer);}, 500);
+        break;
+      }
+      // If the currentOpponent is about to win, then the AI should play to block their next move to win
+      if (liveBoard[winningStates[i][0]] === currentOpponent.symbol && liveBoard[winningStates[i][1]] === currentOpponent.symbol && liveBoard[winningStates[i][2]] === null) {
+        setTimeout(function() {activatePlacement(winningStates[i][2], currentPlayer);}, 500);
+        break;
+      } else if (liveBoard[winningStates[i][1]] === currentOpponent.symbol && liveBoard[winningStates[i][2]] === currentOpponent.symbol && liveBoard[winningStates[i][0]] === null) {
+        setTimeout(function() {activatePlacement(winningStates[i][0], currentPlayer);}, 500);
+        break;
+      } else if (liveBoard[winningStates[i][0]] === currentOpponent.symbol && liveBoard[winningStates[i][2]] === currentOpponent.symbol && liveBoard[winningStates[i][1]] === null) {
+        setTimeout(function() {activatePlacement(winningStates[i][1], currentPlayer);}, 500);
+        break;
+      }
+    }
   }
 
   else {
-    console.log("final else called");
-    var emptySquares = [];
-    for(i=0; i<liveBoard.length; i++) {
-      if(liveBoard[i] === null) {
-        emptySquares.push(i);
-      }
+    // If no one is about to win, there are a few set moves at the beginning in the first few if-else statements. Then it plays randomly later in the game. Though that shouldn't actually happen very often because the first if-statement should kick in in most situations later in the game.
+    var random = Math.floor(Math.random() * 5);
+    var cornerArray = [0, 2, 6, 8];
+    var sideArray = [1, 3, 5, 7];
+    if (turnNum === 0) {
+      // If the AI is firstPlayer it should take a random corner
+      setTimeout(function() {activatePlacement(cornerArray[random], currentPlayer);}, 500);
+    } else if (turnNum === 1 && liveBoard[4] === null) {
+      // If AI is secondPlayer, it should take the middle if it's available
+      setTimeout(function() {activatePlacement(4, currentPlayer);}, 500);
+    } else if (turnNum === 1 && liveBoard[4] !== null) {
+      //If AI is secondPlayer and middle is taken, take a random corner
+      setTimeout(function() {activatePlacement(cornerArray[random], currentPlayer);}, 500);
+    } else if (turnNum === 2) {
+        // If AI is first player and this is its second turn. It should play the opposite corner from it's first play. If that corner is not available it should take a random corner.
+        var firstCorner = liveBoard.indexOf('x');
+        var oppositeCorner;
+        if(firstCorner === 0 && liveBoard[8] === null) {
+          oppositeCorner = 8;
+        }
+        else if (firstCorner === 2 && liveBoard[6] === null) {
+          oppositeCorner = 6;
+        }
+        else if (firstCorner === 6 && liveBoard[2] === null) {
+          oppositeCorner = 2;
+        }
+        else if (firstCorner === 8 && liveBoard[0] === null){
+          oppositeCorner = 0;
+        }
+        else {
+          oppositeCorner = cornerArray[random];
+        }
+        setTimeout(function() {activatePlacement(oppositeCorner, currentPlayer);}, 500);
     }
-    console.log("emptySquares = " + emptySquares);
-    if(emptySquares.length === 1) {
-      console.log("emptySquares.length = 1");
-      activatePlacement(emptySquares[0], currentPlayer);
+    else if (turnNum === 3 && liveBoard[0] === currentOpponent.symbol && liveBoard[8] === currentOpponent.symbol) {
+      // If on turnNum 3 the opponent has 2 corners, the AI should take a random side square.
+      console.log("sideArray[random] is used here for placement");
+      setTimeout(function() {activatePlacement(sideArray[random], currentPlayer);}, 500);
+    } else if (turnNum === 3 && liveBoard[2] === currentOpponent.symbol && liveBoard[6] === currentOpponent.symbol) {
+      // If on turnNum 3 the opponent has 2 corners, the AI should take a random side square.
+      setTimeout(function() {activatePlacement(sideArray[random], currentPlayer);}, 500);
     }
     else {
-      randomPlacement(emptySquares);
+      // If none of the above are currently true, then the AI loops through the empty squares and places on a random square.
+      console.log("final else called");
+      var emptySquares = [];
+      for (i = 0; i < liveBoard.length; i++) {
+        if (liveBoard[i] === null) {
+          emptySquares.push(i);
+        }
+      }
+      console.log("emptySquares = " + emptySquares);
+      if (emptySquares.length === 1) {
+        console.log("emptySquares.length = 1");
+        setTimeout(function() {activatePlacement(emptySquares[0], currentPlayer);}, 500);
+      } else {
+        randomPlacement(emptySquares);
+      }
     }
   }
+}
+
+/** Returns true is someone is about to win. Returns false if not.
+ * @checkForAlmostWin
+ */
+function checkForAlmostWin() {
+  almostWin = false;
+
+  for (i = 0; i < winningStates.length; i++) {
+    console.log(i + " for checkForAlmostWin");
+    if (liveBoard[winningStates[i][0]] !== null && liveBoard[winningStates[i][1]] !== null && liveBoard[winningStates[i][0]] === liveBoard[winningStates[i][1]] && liveBoard[winningStates[i][2]] === null) {
+      almostWin = true;
+      break;
+    } else if (liveBoard[winningStates[i][1]] !== null &&  liveBoard[winningStates[i][2]] !== null && liveBoard[winningStates[i][1]] === liveBoard[winningStates[i][2]] && liveBoard[winningStates[i][0]] === null) {
+      almostWin = true;
+      break;
+    } else if (liveBoard[winningStates[i][0]] !== null &&   liveBoard[winningStates[i][2]] !== null && liveBoard[winningStates[i][0]] === liveBoard[winningStates[i][2]] && liveBoard[winningStates[i][1]] === null) {
+      almostWin = true;
+      break;
+    }
+  }
+}
+
 
 /** Makes a random placement based on the empty spaces available defined in the emptySquares array
 * @randomPlacement
@@ -568,7 +548,7 @@ function randomPlacement (emptySquares) {
 }
 
 
-}
+
 // function getEmptySquares() {
 //   var emptySquares = [];
 //   for(i=0; i<liveBoard.length; i++) {
