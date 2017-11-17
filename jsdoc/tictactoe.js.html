@@ -1,4 +1,32 @@
-///
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: tictactoe.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: tictactoe.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>///
 // CODE FOR DETERMINING IF THERE IS A WINNER
 //
 var winningStates = [
@@ -23,8 +51,8 @@ var thisIsAWinningState;
 function isThereAWinner(boardstate, player) {
   console.log("isThereAWinner called");
   thisIsAWinningState = false;
-  for (i = 0; i < winningStates.length; i++) {
-    if (boardstate[winningStates[i][0]] !== null && boardstate[winningStates[i][0]] === boardstate[winningStates[i][1]] && boardstate[winningStates[i][1]] === boardstate[winningStates[i][2]]) {
+  for (i = 0; i &lt; winningStates.length; i++) {
+    if (boardstate[winningStates[i][0]] !== null &amp;&amp; boardstate[winningStates[i][0]] === boardstate[winningStates[i][1]] &amp;&amp; boardstate[winningStates[i][1]] === boardstate[winningStates[i][2]]) {
       thisIsAWinningState = true;
       winner = player;
     }
@@ -36,63 +64,63 @@ function isThereAWinner(boardstate, player) {
 //
 $('#box0').click(function() {
   boardPosition = 0;
-  if (liveBoard[boardPosition] === null && currentPlayer.name != "Computer") {
+  if (liveBoard[boardPosition] === null &amp;&amp; currentPlayer.name != "Computer") {
     activatePlacement(boardPosition, currentPlayer);
   }
 });
 
 $('#box1').click(function() {
   boardPosition = 1;
-  if (liveBoard[boardPosition] === null && currentPlayer.name != "Computer") {
+  if (liveBoard[boardPosition] === null &amp;&amp; currentPlayer.name != "Computer") {
     activatePlacement(boardPosition, currentPlayer);
   }
 });
 
 $('#box2').click(function() {
   boardPosition = 2;
-  if (liveBoard[boardPosition] === null && currentPlayer.name != "Computer") {
+  if (liveBoard[boardPosition] === null &amp;&amp; currentPlayer.name != "Computer") {
     activatePlacement(boardPosition, currentPlayer);
   }
 });
 
 $('#box3').click(function() {
   boardPosition = 3;
-  if (liveBoard[boardPosition] === null && currentPlayer.name != "Computer") {
+  if (liveBoard[boardPosition] === null &amp;&amp; currentPlayer.name != "Computer") {
     activatePlacement(boardPosition, currentPlayer);
   }
 });
 
 $('#box4').click(function() {
   boardPosition = 4;
-  if (liveBoard[boardPosition] === null && currentPlayer.name != "Computer") {
+  if (liveBoard[boardPosition] === null &amp;&amp; currentPlayer.name != "Computer") {
     activatePlacement(boardPosition, currentPlayer);
   }
 });
 
 $('#box5').click(function() {
   boardPosition = 5;
-  if (liveBoard[boardPosition] === null && currentPlayer.name != "Computer") {
+  if (liveBoard[boardPosition] === null &amp;&amp; currentPlayer.name != "Computer") {
     activatePlacement(boardPosition, currentPlayer);
   }
 });
 
 $('#box6').click(function() {
   boardPosition = 6;
-  if (liveBoard[boardPosition] === null && currentPlayer.name !== "Computer") {
+  if (liveBoard[boardPosition] === null &amp;&amp; currentPlayer.name !== "Computer") {
     activatePlacement(boardPosition, currentPlayer);
   }
 });
 
 $('#box7').click(function() {
   boardPosition = 7;
-  if (liveBoard[boardPosition] === null && currentPlayer.name !== "Computer") {
+  if (liveBoard[boardPosition] === null &amp;&amp; currentPlayer.name !== "Computer") {
     activatePlacement(boardPosition, currentPlayer);
   }
 });
 
 $('#box8').click(function() {
   boardPosition = 8;
-  if (liveBoard[boardPosition] === null && currentPlayer.name !== "Computer") {
+  if (liveBoard[boardPosition] === null &amp;&amp; currentPlayer.name !== "Computer") {
     activatePlacement(boardPosition, currentPlayer);
   }
 });
@@ -137,13 +165,13 @@ var difficultyLevel;
 */
 function changePlayerHeader() {
   if(currentPlayer.name === "You") {
-    $('.player-header').html("<h1>You're Turn</h1>");
+    $('.player-header').html("&lt;h1>You're Turn&lt;/h1>");
   }
   else if(currentPlayer === firstPlayer) {
-    $('.player-header').html("<h1>" + firstPlayer.name + "'s Turn</h1>");
+    $('.player-header').html("&lt;h1>" + firstPlayer.name + "'s Turn&lt;/h1>");
   }
   else {
-    $('.player-header').html("<h1>" + secondPlayer.name + "'s Turn</h1>");
+    $('.player-header').html("&lt;h1>" + secondPlayer.name + "'s Turn&lt;/h1>");
   }
 }
 
@@ -156,8 +184,8 @@ $('.two-players').click(function() {
   $('.gameboard').toggle('.hidden');
   $('.headers').toggle('.hidden');
   changePlayerHeader();
-  // $('.player-header').html("<h1>" + firstPlayer.name + "'s Turn</h1>");
-  // $('.player-2-header').html("<h1>" + secondPlayer.name + "'s Turn</h1>");
+  // $('.player-header').html("&lt;h1>" + firstPlayer.name + "'s Turn&lt;/h1>");
+  // $('.player-2-header').html("&lt;h1>" + secondPlayer.name + "'s Turn&lt;/h1>");
   // twoPlayerGame();
 });
 
@@ -306,12 +334,12 @@ function changeCurrentPlayer() {
 */
 function nextTurn() {
   console.log ('nextTurn called');
-  if(currentPlayer.name === "Computer" && difficultyLevel === "easy") {
+  if(currentPlayer.name === "Computer" &amp;&amp; difficultyLevel === "easy") {
     changePlayerHeader();
     setTimeout(easyComputerTurn, 1500);
 
   }
-  else if(currentPlayer.name === "Computer" && difficultyLevel === "impossible") {
+  else if(currentPlayer.name === "Computer" &amp;&amp; difficultyLevel === "impossible") {
     changePlayerHeader();
     setTimeout(aiTurn, 500);
   }
@@ -334,11 +362,11 @@ function gameEndScreen() {
  */
 function gameWon() {
   if(currentPlayer.name === "You") {
-    $('.win-draw-div').html("<h3 class='winner-or-draw'>" + currentPlayer.name + " win!!!</h3>");
+    $('.win-draw-div').html("&lt;h3 class='winner-or-draw'>" + currentPlayer.name + " win!!!&lt;/h3>");
     gameEndScreen();
   }
   else {
-  $('.win-draw-div').html("<h3 class='winner-or-draw'>" + currentPlayer.name + " wins!!!</h3>");
+  $('.win-draw-div').html("&lt;h3 class='winner-or-draw'>" + currentPlayer.name + " wins!!!&lt;/h3>");
   gameEndScreen();
 }
 }
@@ -347,7 +375,7 @@ function gameWon() {
  * @gameDraw
  */
 function gameDraw() {
-  $('.win-draw-div').html("<h3 class='winner-or-draw'>It's a draw!</h3>");
+  $('.win-draw-div').html("&lt;h3 class='winner-or-draw'>It's a draw!&lt;/h3>");
   gameEndScreen();
 }
 
@@ -389,27 +417,27 @@ function aiTurn() {
     console.log("almostWin = " + almostWin);
     console.log("currentPlayer.symbol in aiTurn = " + currentPlayer.symbol);
     // If someone is about to win, loop through winningStates and determine a move based on who is about to win.
-    for (i = 0; i < winningStates.length; i++) {
+    for (i = 0; i &lt; winningStates.length; i++) {
       // If the currentPlayer can win, then the AI should play for an immediate win
       console.log(i + " for aiTurn first if-statement");
-      if (liveBoard[winningStates[i][0]] === currentPlayer.symbol && liveBoard[winningStates[i][1]] === currentPlayer.symbol && liveBoard[winningStates[i][2]] === null) {
+      if (liveBoard[winningStates[i][0]] === currentPlayer.symbol &amp;&amp; liveBoard[winningStates[i][1]] === currentPlayer.symbol &amp;&amp; liveBoard[winningStates[i][2]] === null) {
         setTimeout(function() {activatePlacement(winningStates[i][2], currentPlayer);}, 500);
         break;
-      } else if (liveBoard[winningStates[i][1]] === currentPlayer.symbol && liveBoard[winningStates[i][2]] === currentPlayer.symbol && liveBoard[winningStates[i][0]] === null) {
+      } else if (liveBoard[winningStates[i][1]] === currentPlayer.symbol &amp;&amp; liveBoard[winningStates[i][2]] === currentPlayer.symbol &amp;&amp; liveBoard[winningStates[i][0]] === null) {
         setTimeout(function() {activatePlacement(winningStates[i][0], currentPlayer);}, 500);
         break;
-      } else if (liveBoard[winningStates[i][0]] === currentPlayer.symbol && liveBoard[winningStates[i][2]] === currentPlayer.symbol && liveBoard[winningStates[i][1]] === null) {
+      } else if (liveBoard[winningStates[i][0]] === currentPlayer.symbol &amp;&amp; liveBoard[winningStates[i][2]] === currentPlayer.symbol &amp;&amp; liveBoard[winningStates[i][1]] === null) {
         setTimeout(function() {activatePlacement(winningStates[i][1], currentPlayer);}, 500);
         break;
       }
       // If the currentOpponent is about to win, then the AI should play to block their next move to win
-      else if (liveBoard[winningStates[i][0]] === currentOpponent.symbol && liveBoard[winningStates[i][1]] === currentOpponent.symbol && liveBoard[winningStates[i][2]] === null) {
+      else if (liveBoard[winningStates[i][0]] === currentOpponent.symbol &amp;&amp; liveBoard[winningStates[i][1]] === currentOpponent.symbol &amp;&amp; liveBoard[winningStates[i][2]] === null) {
         setTimeout(function() {activatePlacement(winningStates[i][2], currentPlayer);}, 500);
         break;
-      } else if (liveBoard[winningStates[i][1]] === currentOpponent.symbol && liveBoard[winningStates[i][2]] === currentOpponent.symbol && liveBoard[winningStates[i][0]] === null) {
+      } else if (liveBoard[winningStates[i][1]] === currentOpponent.symbol &amp;&amp; liveBoard[winningStates[i][2]] === currentOpponent.symbol &amp;&amp; liveBoard[winningStates[i][0]] === null) {
         setTimeout(function() {activatePlacement(winningStates[i][0], currentPlayer);}, 500);
         break;
-      } else if (liveBoard[winningStates[i][0]] === currentOpponent.symbol && liveBoard[winningStates[i][2]] === currentOpponent.symbol && liveBoard[winningStates[i][1]] === null) {
+      } else if (liveBoard[winningStates[i][0]] === currentOpponent.symbol &amp;&amp; liveBoard[winningStates[i][2]] === currentOpponent.symbol &amp;&amp; liveBoard[winningStates[i][1]] === null) {
         setTimeout(function() {activatePlacement(winningStates[i][1], currentPlayer);}, 500);
         break;
       }
@@ -422,26 +450,26 @@ function aiTurn() {
     if (turnNum === 0) {
       // If the AI is firstPlayer it should take a random corner
       setTimeout(function() {activatePlacement(cornerArray[random], currentPlayer);}, 500);
-    } else if (turnNum === 1 && liveBoard[4] === null) {
+    } else if (turnNum === 1 &amp;&amp; liveBoard[4] === null) {
       // If AI is secondPlayer, it should take the middle if it's available
       setTimeout(function() {activatePlacement(4, currentPlayer);}, 500);
-    } else if (turnNum === 1 && liveBoard[4] !== null) {
+    } else if (turnNum === 1 &amp;&amp; liveBoard[4] !== null) {
       //If AI is secondPlayer and middle is taken, take a random corner
       setTimeout(function() {activatePlacement(cornerArray[random], currentPlayer);}, 500);
     } else if (turnNum === 2) {
         // If AI is first player and this is its second turn. It should play the opposite corner from it's first play. If that corner is not available it should take a random corner.
         var firstCorner = liveBoard.indexOf('x');
         var oppositeCorner;
-        if(firstCorner === 0 && liveBoard[8] === null) {
+        if(firstCorner === 0 &amp;&amp; liveBoard[8] === null) {
           oppositeCorner = 8;
         }
-        else if (firstCorner === 2 && liveBoard[6] === null) {
+        else if (firstCorner === 2 &amp;&amp; liveBoard[6] === null) {
           oppositeCorner = 6;
         }
-        else if (firstCorner === 6 && liveBoard[2] === null) {
+        else if (firstCorner === 6 &amp;&amp; liveBoard[2] === null) {
           oppositeCorner = 2;
         }
-        else if (firstCorner === 8 && liveBoard[0] === null){
+        else if (firstCorner === 8 &amp;&amp; liveBoard[0] === null){
           oppositeCorner = 0;
         }
         else {
@@ -449,11 +477,11 @@ function aiTurn() {
         }
         setTimeout(function() {activatePlacement(oppositeCorner, currentPlayer);}, 500);
     }
-    else if (turnNum === 3 && liveBoard[0] === currentOpponent.symbol && liveBoard[8] === currentOpponent.symbol) {
+    else if (turnNum === 3 &amp;&amp; liveBoard[0] === currentOpponent.symbol &amp;&amp; liveBoard[8] === currentOpponent.symbol) {
       // If on turnNum 3 the opponent has 2 corners, the AI should take a random side square.
       console.log("sideArray[random] is used here for placement");
       setTimeout(function() {activatePlacement(sideArray[random], currentPlayer);}, 500);
-    } else if (turnNum === 3 && liveBoard[2] === currentOpponent.symbol && liveBoard[6] === currentOpponent.symbol) {
+    } else if (turnNum === 3 &amp;&amp; liveBoard[2] === currentOpponent.symbol &amp;&amp; liveBoard[6] === currentOpponent.symbol) {
       // If on turnNum 3 the opponent has 2 corners, the AI should take a random side square.
       setTimeout(function() {activatePlacement(sideArray[random], currentPlayer);}, 500);
     }
@@ -461,7 +489,7 @@ function aiTurn() {
       // If none of the above are currently true, then the AI loops through the empty squares and places on a random square.
       console.log("final else called");
       var emptySquares = [];
-      for (i = 0; i < liveBoard.length; i++) {
+      for (i = 0; i &lt; liveBoard.length; i++) {
         if (liveBoard[i] === null) {
           emptySquares.push(i);
         }
@@ -483,14 +511,14 @@ function aiTurn() {
 function checkForAlmostWin() {
   almostWin = false;
 
-  for (i = 0; i < winningStates.length; i++) {
-    if (liveBoard[winningStates[i][0]] !== null && liveBoard[winningStates[i][1]] !== null && liveBoard[winningStates[i][0]] === liveBoard[winningStates[i][1]] && liveBoard[winningStates[i][2]] === null) {
+  for (i = 0; i &lt; winningStates.length; i++) {
+    if (liveBoard[winningStates[i][0]] !== null &amp;&amp; liveBoard[winningStates[i][1]] !== null &amp;&amp; liveBoard[winningStates[i][0]] === liveBoard[winningStates[i][1]] &amp;&amp; liveBoard[winningStates[i][2]] === null) {
       almostWin = true;
       break;
-    } else if (liveBoard[winningStates[i][1]] !== null &&  liveBoard[winningStates[i][2]] !== null && liveBoard[winningStates[i][1]] === liveBoard[winningStates[i][2]] && liveBoard[winningStates[i][0]] === null) {
+    } else if (liveBoard[winningStates[i][1]] !== null &amp;&amp;  liveBoard[winningStates[i][2]] !== null &amp;&amp; liveBoard[winningStates[i][1]] === liveBoard[winningStates[i][2]] &amp;&amp; liveBoard[winningStates[i][0]] === null) {
       almostWin = true;
       break;
-    } else if (liveBoard[winningStates[i][0]] !== null &&   liveBoard[winningStates[i][2]] !== null && liveBoard[winningStates[i][0]] === liveBoard[winningStates[i][2]] && liveBoard[winningStates[i][1]] === null) {
+    } else if (liveBoard[winningStates[i][0]] !== null &amp;&amp;   liveBoard[winningStates[i][2]] !== null &amp;&amp; liveBoard[winningStates[i][0]] === liveBoard[winningStates[i][2]] &amp;&amp; liveBoard[winningStates[i][1]] === null) {
       almostWin = true;
       break;
     }
@@ -513,3 +541,26 @@ function randomPlacement (emptySquares) {
     randomPlacement(emptySquares);
   }
 }
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#activatePlacement">activatePlacement</a></li><li><a href="global.html#changeCurrentPlayer">changeCurrentPlayer</a></li><li><a href="global.html#changePlayerHeader">changePlayerHeader</a></li><li><a href="global.html#checkForAlmostWin">checkForAlmostWin</a></li><li><a href="global.html#easyComputerTurn">easyComputerTurn</a></li><li><a href="global.html#gameDraw">gameDraw</a></li><li><a href="global.html#gameEndOrNot">gameEndOrNot</a></li><li><a href="global.html#gameEndScreen">gameEndScreen</a></li><li><a href="global.html#gameWon">gameWon</a></li><li><a href="global.html#isThereAWinner">isThereAWinner</a></li><li><a href="global.html#nextTurn">nextTurn</a></li><li><a href="global.html#onePlayerGame">onePlayerGame</a></li><li><a href="global.html#random">random</a></li><li><a href="global.html#randomPlacement">randomPlacement</a></li><li><a href="global.html#resetGame">resetGame</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Fri Nov 17 2017 11:46:52 GMT-0500 (Eastern Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
